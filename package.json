@@ -1,0 +1,22 @@
+{
+  "name": "codebox-day1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Noah-Gullo/codebox-day1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Noah-Gullo/codebox-day1/issues"
+  },
+  "homepage": "https://github.com/Noah-Gullo/codebox-day1#readme"
+}
