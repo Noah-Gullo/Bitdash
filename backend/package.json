@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/index.js"
+    "dev": "node server.js",
+    "token": "node scripts/generate-token.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/Noah-Gullo/codebox-day1/issues"
   },
-  "homepage": "https://github.com/Noah-Gullo/codebox-day1#readme"
+  "homepage": "https://github.com/Noah-Gullo/codebox-day1#readme",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3"
+  }
 }
