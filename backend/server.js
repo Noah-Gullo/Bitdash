@@ -11,9 +11,12 @@ require("./config/passport");
 
 const app = express();
 const port = process.env.PORT || 3000;
-const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+const defaultOrigins = ["http://localhost:5173", "https://bitdash-ruby.vercel.app"];
+const configuredOrigins = (process.env.CLIENT_URL || "")
   .split(",")
-  .map((origin) => origin.trim().replace(/\/$/, ""));
+  .map((origin) => origin.trim().replace(/[/]$/, ""))
+  .filter(Boolean);
+const allowedOrigins = new Set([...defaultOrigins, ...configuredOrigins]);
 
 app.get("/", (req, res) => {
   res.json({ name: "Bitdash API", status: "online" });
@@ -22,7 +25,7 @@ app.get("/", (req, res) => {
 app.use(cors({
   origin(origin, callback) {
     // Browser extensions and server-to-server requests have no Origin header.
-    if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+    if (!origin || allowedOrigins.has(origin) || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
       return callback(null, true);
     }
     return callback(new Error("Origin is not allowed by CORS."));

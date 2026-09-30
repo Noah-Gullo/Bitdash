@@ -1,9 +1,9 @@
 [build]
   command = "echo Building Bitdash API"
-  publish = "public"
+  publish = "backend/src"
 
 [functions]
-  directory = "netlify/functions"
+  directory = "backend/netlify/functions"
   external_node_modules = ["express", "serverless-http"]
   node_bundler = "esbuild"
 
