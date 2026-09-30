@@ -18,7 +18,7 @@ function gameTokenFor(session) {
 }
 
 router.get("/leaderboard", authenticateToken, async (req, res, next) => {
-  try { res.json(await getLeaderboard()); } catch (error) { next(error); }
+  try { const result = await getLeaderboard(); res.set("X-Bitdash-Cache", result.cache).json(result.entries); } catch (error) { next(error); }
 });
 
 router.post("/start", authenticateToken, async (req, res, next) => {

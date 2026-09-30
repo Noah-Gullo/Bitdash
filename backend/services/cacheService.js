@@ -7,6 +7,10 @@ const redis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_RE
 const LEADERBOARD_KEY = "bitdash:leaderboard:v1";
 const LEADERBOARD_TTL_SECONDS = 60;
 
+function isCacheConfigured() {
+  return Boolean(redis);
+}
+
 async function getLeaderboardCache() {
   if (!redis) return null;
   try {
@@ -36,4 +40,4 @@ async function invalidateLeaderboardCache() {
   }
 }
 
-module.exports = { getLeaderboardCache, cacheLeaderboard, invalidateLeaderboardCache };
+module.exports = { isCacheConfigured, getLeaderboardCache, cacheLeaderboard, invalidateLeaderboardCache };
