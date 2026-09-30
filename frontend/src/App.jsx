@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 const TIME_LIMIT = 30;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const asValue = (value, base) =>
   base === "hex"
     ? `0x${value.toString(16).toUpperCase()}`
@@ -49,8 +50,22 @@ export default function App() {
     [score, setScore] = useState(0),
     [streak, setStreak] = useState(0),
     [status, setStatus] = useState("idle"),
+    [user, setUser] = useState(() => {
+      const saved = localStorage.getItem("bitdash-user");
+      return saved ? JSON.parse(saved) : null;
+    }),
+    [authOpen, setAuthOpen] = useState(false),
+    [authMode, setAuthMode] = useState("login"),
+    [authError, setAuthError] = useState(""),
+    [authLoading, setAuthLoading] = useState(false),
     input = useRef(null);
   const start = () => {
+    if (!user) {
+      setAuthMode("login");
+      setAuthError("");
+      setAuthOpen(true);
+      return;
+    }
     setCurrent(question());
     setAnswer("");
     setTime(TIME_LIMIT);
@@ -68,6 +83,33 @@ export default function App() {
     const t = setTimeout(() => setTime((x) => x - 1), 1000);
     return () => clearTimeout(t);
   }, [status, time]);
+  useEffect(() => {
+    const token = localStorage.getItem("bitdash-token");
+    if (!token) return;
+    fetch(`${API_URL}/api/me`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => response.ok ? response.json() : Promise.reject())
+      .then((savedUser) => { setUser(savedUser); localStorage.setItem("bitdash-user", JSON.stringify(savedUser)); })
+      .catch(() => { localStorage.removeItem("bitdash-token"); localStorage.removeItem("bitdash-user"); setUser(null); });
+  }, []);
+  const submitAuth = async (event) => {
+    event.preventDefault();
+    setAuthLoading(true);
+    setAuthError("");
+    const form = new FormData(event.currentTarget);
+    const payload = { email: form.get("email"), password: form.get("password") };
+    if (authMode === "signup") payload.name = form.get("name");
+    try {
+      const response = await fetch(`${API_URL}/api/auth/${authMode === "signup" ? "register" : "login"}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.details?.[0]?.message || data.error || "Authentication failed.");
+      localStorage.setItem("bitdash-token", data.token);
+      localStorage.setItem("bitdash-user", JSON.stringify(data.user));
+      setUser(data.user);
+      setAuthOpen(false);
+    } catch (error) { setAuthError(error.message); }
+    finally { setAuthLoading(false); }
+  };
+  const logout = () => { localStorage.removeItem("bitdash-token"); localStorage.removeItem("bitdash-user"); setUser(null); setStatus("idle"); setAuthOpen(false); };
   const submit = (e) => {
     e.preventDefault();
     if (status !== "playing") return;
@@ -93,8 +135,8 @@ export default function App() {
           <a href="#how">how it works</a>
           <a href="#leaderboard">leaderboard</a>
         </nav>
-        <button className="profile-button" aria-label="Open profile">
-          <span>NG</span>
+        <button className="profile-button" onClick={() => { setAuthError(""); setAuthOpen(true); }} aria-label={user ? "Open account" : "Log in or sign up"}>
+          <span>{user ? user.name.slice(0, 2).toUpperCase() : "→"}</span>
         </button>
       </header>
       <section className="game" id="top">
@@ -218,6 +260,22 @@ export default function App() {
         <span>MADE FOR PEOPLE WHO READ HEX FOR FUN</span>
         <span>⌘</span>
       </footer>
+      {authOpen && <div className="auth-backdrop" role="presentation" onMouseDown={() => setAuthOpen(false)}>
+        <section className="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title" onMouseDown={(event) => event.stopPropagation()}>
+          <button className="auth-close" onClick={() => setAuthOpen(false)} aria-label="Close">×</button>
+          {user ? <><p className="auth-eyebrow">SIGNED IN</p><h2 id="auth-title">Hey, {user.name}.</h2><p className="auth-copy">Your account is ready for the next sprint.</p><button className="auth-submit" onClick={logout}>Log out <span>→</span></button></> : <>
+            <p className="auth-eyebrow">BITDASH ACCOUNT</p><h2 id="auth-title">{authMode === "login" ? "Welcome back." : "Start your streak."}</h2><p className="auth-copy">{authMode === "login" ? "Log in to unlock the daily drill." : "Create an account to begin playing."}</p>
+            <form className="auth-form" onSubmit={submitAuth}>
+              {authMode === "signup" && <label>Name<input name="name" minLength="2" maxLength="40" required placeholder="Ada Lovelace" /></label>}
+              <label>Email<input name="email" type="email" required autoComplete="email" placeholder="you@example.com" /></label>
+              <label>Password<input name="password" type="password" minLength="8" required autoComplete={authMode === "login" ? "current-password" : "new-password"} placeholder="At least 8 characters" /></label>
+              {authError && <p className="auth-error">{authError}</p>}
+              <button className="auth-submit" disabled={authLoading}>{authLoading ? "Please wait…" : authMode === "login" ? "Log in" : "Create account"} <span>→</span></button>
+            </form>
+            <button className="auth-switch" onClick={() => { setAuthMode(authMode === "login" ? "signup" : "login"); setAuthError(""); }}>{authMode === "login" ? "New to Bitdash? Create an account" : "Already have an account? Log in"}</button>
+          </>}
+        </section>
+      </div>}
     </main>
   );
 }
