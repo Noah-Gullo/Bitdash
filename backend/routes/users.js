@@ -3,18 +3,22 @@ const { getUserById, getUsers } = require("../services/userService");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json(getUsers());
+router.get("/", async (req, res, next) => {
+  try {
+    res.json(await getUsers());
+  } catch (error) { next(error); }
 });
 
-router.get("/:id", (req, res) => {
-  const user = getUserById(req.params.id);
+router.get("/:id", async (req, res, next) => {
+  try {
+  const user = await getUserById(req.params.id);
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
   res.json(user);
+  } catch (error) { next(error); }
 });
 
 module.exports = router;
