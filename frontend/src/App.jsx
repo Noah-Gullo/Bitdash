@@ -58,21 +58,36 @@ export default function App() {
     [authMode, setAuthMode] = useState("login"),
     [authError, setAuthError] = useState(""),
     [authLoading, setAuthLoading] = useState(false),
+    [gameToken, setGameToken] = useState(null),
+    [scoreMessage, setScoreMessage] = useState(""),
     input = useRef(null);
-  const start = () => {
+  const start = async () => {
     if (!user) {
       setAuthMode("login");
       setAuthError("");
       setAuthOpen(true);
       return;
     }
-    setCurrent(question());
-    setAnswer("");
-    setTime(TIME_LIMIT);
-    setScore(0);
-    setStreak(0);
-    setStatus("playing");
-    setTimeout(() => input.current?.focus(), 0);
+    const token = localStorage.getItem("bitdash-token");
+    try {
+      const response = await fetch(`${API_URL}/api/games/start`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to start a scored game.");
+      setGameToken(data.gameToken);
+      setScoreMessage("");
+      setCurrent(question());
+      setAnswer("");
+      setTime(data.durationSeconds || TIME_LIMIT);
+      setScore(0);
+      setStreak(0);
+      setStatus("playing");
+      setTimeout(() => input.current?.focus(), 0);
+    } catch (error) {
+      setScoreMessage(error.message);
+    }
   };
   useEffect(() => {
     if (status !== "playing") return;
@@ -83,6 +98,29 @@ export default function App() {
     const t = setTimeout(() => setTime((x) => x - 1), 1000);
     return () => clearTimeout(t);
   }, [status, time]);
+  useEffect(() => {
+    if (status !== "finished" || !gameToken) return;
+    let cancelled = false;
+    const saveScore = async () => {
+      const token = localStorage.getItem("bitdash-token");
+      try {
+        const response = await fetch(`${API_URL}/api/games/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ gameToken, score }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unable to submit score.");
+        if (!cancelled) setScoreMessage("Score submitted to the leaderboard.");
+      } catch (error) {
+        if (!cancelled) setScoreMessage(error.message);
+      } finally {
+        if (!cancelled) setGameToken(null);
+      }
+    };
+    saveScore();
+    return () => { cancelled = true; };
+  }, [status, gameToken, score]);
   useEffect(() => {
     const token = localStorage.getItem("bitdash-token");
     if (!token) return;
@@ -195,7 +233,7 @@ export default function App() {
               </h2>
               <p>
                 {status === "finished"
-                  ? "Your quickest run is waiting to be beaten."
+                  ? scoreMessage || "Submitting your score…"
                   : "Get as many answers as you can in 30 seconds."}
               </p>
               <button className="start" onClick={start}>

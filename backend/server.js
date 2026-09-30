@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const gamesRouter = require("./routes/games");
 const authenticateToken = require("./middleware/auth");
 require("./config/passport");
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/games", gamesRouter);
 
 app.get("/api/me", authenticateToken, (req, res) => {
   res.json(req.user);
