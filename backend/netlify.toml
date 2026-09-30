@@ -1,0 +1,14 @@
+[build]
+  command = "echo Building Bitdash API"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["express", "serverless-http"]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
