@@ -54,4 +54,10 @@ async function submitScore(sessionId, userId, score) {
   return scoreRow;
 }
 
-module.exports = { createGameSession, getGameSession, submitScore };
+async function getLeaderboard() {
+  const { data, error } = await supabase.from("scores").select("id, score, created_at, users(name)").order("score", { ascending: false }).order("created_at", { ascending: true }).limit(50);
+  requireResult(error);
+  return data.map((entry) => ({ id: entry.id, score: entry.score, createdAt: entry.created_at, name: entry.users?.name || "Anonymous" }));
+}
+
+module.exports = { createGameSession, getGameSession, submitScore, getLeaderboard };

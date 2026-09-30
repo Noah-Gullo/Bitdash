@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const authenticateToken = require("../middleware/auth");
-const { createGameSession, getGameSession, submitScore } = require("../services/gameService");
+const { createGameSession, getGameSession, submitScore, getLeaderboard } = require("../services/gameService");
 
 const router = express.Router();
 const jwtSecret = process.env.JWT_SECRET;
@@ -16,6 +16,10 @@ function gameTokenFor(session) {
     { algorithm: "HS256", expiresIn: GAME_SECONDS + SUBMISSION_GRACE_SECONDS + 5 }
   );
 }
+
+router.get("/leaderboard", authenticateToken, async (req, res, next) => {
+  try { res.json(await getLeaderboard()); } catch (error) { next(error); }
+});
 
 router.post("/start", authenticateToken, async (req, res, next) => {
   try {
