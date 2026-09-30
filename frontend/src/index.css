@@ -1,3 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap");
 @import "tailwindcss";
-*{box-sizing:border-box}html{background:#f6f6f2;scroll-behavior:smooth}body{margin:0;min-width:320px;color:#151714;font-family:"DM Sans",Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}
+* {
+  box-sizing: border-box;
+}
+html {
+  background: #f6f6f2;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  color: #151714;
+  font-family: "DM Sans", Arial, sans-serif;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}

@@ -8,20 +8,279 @@ import FaqPage from "./components/FaqPage";
 
 const TIME_LIMIT = 30;
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-const asValue = (value, base) => base === "hex" ? `0x${value.toString(16).toUpperCase()}` : base === "binary" ? `0b${value.toString(2)}` : String(value);
-function question() { const bases = ["hex", "binary", "decimal"], ops = ["+", "−", "&", "|", "⊕", "~"], op = ops[Math.floor(Math.random() * ops.length)], a = Math.floor(Math.random() * 65535) + 1, b = Math.floor(Math.random() * 16383) + 1, result = op === "+" ? a + b : op === "−" ? Math.max(0, a - b) : op === "&" ? a & b : op === "|" ? a | b : op === "⊕" ? a ^ b : ~a & 0xffff, output = bases[Math.floor(Math.random() * bases.length)]; return { left: asValue(a, bases[Math.floor(Math.random() * bases.length)]), right: asValue(b, bases[Math.floor(Math.random() * bases.length)]), op, result: asValue(result, output), output }; }
-function parseAnswer(value) { const answer = value.trim().toLowerCase(); if (/^0x[0-9a-f]+$/.test(answer)) return parseInt(answer.slice(2), 16); if (/^0b[01]+$/.test(answer)) return parseInt(answer.slice(2), 2); return /^\d+$/.test(answer) ? Number(answer) : NaN; }
+const asValue = (value, base) =>
+  base === "hex"
+    ? `0x${value.toString(16).toUpperCase()}`
+    : base === "binary"
+      ? `0b${value.toString(2)}`
+      : String(value);
+function question() {
+  const bases = ["hex", "binary", "decimal"],
+    ops = ["+", "−", "&", "|", "⊕", "~"],
+    op = ops[Math.floor(Math.random() * ops.length)],
+    a = Math.floor(Math.random() * 65535) + 1,
+    b = Math.floor(Math.random() * 16383) + 1,
+    result =
+      op === "+"
+        ? a + b
+        : op === "−"
+          ? Math.max(0, a - b)
+          : op === "&"
+            ? a & b
+            : op === "|"
+              ? a | b
+              : op === "⊕"
+                ? a ^ b
+                : ~a & 0xffff,
+    output = bases[Math.floor(Math.random() * bases.length)];
+  return {
+    left: asValue(a, bases[Math.floor(Math.random() * bases.length)]),
+    right: asValue(b, bases[Math.floor(Math.random() * bases.length)]),
+    op,
+    result: asValue(result, output),
+    output,
+  };
+}
+function parseAnswer(value) {
+  const answer = value.trim().toLowerCase();
+  if (/^0x[0-9a-f]+$/.test(answer)) return parseInt(answer.slice(2), 16);
+  if (/^0b[01]+$/.test(answer)) return parseInt(answer.slice(2), 2);
+  return /^\d+$/.test(answer) ? Number(answer) : NaN;
+}
 
 export default function App() {
-  const [current, setCurrent] = useState(question), [time, setTime] = useState(TIME_LIMIT), [score, setScore] = useState(0), [streak, setStreak] = useState(0), [status, setStatus] = useState("idle"), [user, setUser] = useState(() => JSON.parse(localStorage.getItem("bitdash-user") || "null")), [authOpen, setAuthOpen] = useState(false), [authMode, setAuthMode] = useState("login"), [authError, setAuthError] = useState(""), [authLoading, setAuthLoading] = useState(false), [gameToken, setGameToken] = useState(null), [scoreMessage, setScoreMessage] = useState(""), [page, setPage] = useState(() => window.location.hash === "#leaderboard" ? "leaderboard" : window.location.hash === "#faq" ? "faq" : "game");
-  const navigate = (nextPage) => { setPage(nextPage); window.location.hash = nextPage === "game" ? "" : nextPage; };
-  const openAccount = () => { setAuthError(""); setAuthOpen(true); };
-  const start = async () => { if (!user) { setAuthMode("login"); openAccount(); return; } try { const response = await fetch(`${API_URL}/api/games/start`, { method: "POST", headers: { Authorization: `Bearer ${localStorage.getItem("bitdash-token")}` } }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Unable to start a scored game."); setGameToken(data.gameToken); setScoreMessage(""); setCurrent(question()); setTime(data.durationSeconds || TIME_LIMIT); setScore(0); setStreak(0); setStatus("playing"); } catch (error) { setScoreMessage(error.message); } };
-  const onAnswer = (answer) => { const correct = parseAnswer(answer) === parseAnswer(current.result); setScore((value) => value + (correct ? 1 : 0)); setStreak((value) => correct ? value + 1 : 0); setCurrent(question()); };
-  useEffect(() => { if (status !== "playing") return; if (time === 0) { setStatus("finished"); return; } const timer = setTimeout(() => setTime((value) => value - 1), 1000); return () => clearTimeout(timer); }, [status, time]);
-  useEffect(() => { if (status !== "finished" || !gameToken) return; let cancelled = false; fetch(`${API_URL}/api/games/submit`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bitdash-token")}` }, body: JSON.stringify({ gameToken, score }) }).then(async (response) => { const data = await response.json(); if (!response.ok) throw new Error(data.error || "Unable to submit score."); }).then(() => !cancelled && setScoreMessage("Score submitted to the leaderboard.")).catch((error) => !cancelled && setScoreMessage(error.message)).finally(() => !cancelled && setGameToken(null)); return () => { cancelled = true; }; }, [status, gameToken, score]);
-  useEffect(() => { const token = localStorage.getItem("bitdash-token"); if (!token) return; fetch(`${API_URL}/api/me`, { headers: { Authorization: `Bearer ${token}` } }).then((response) => response.ok ? response.json() : Promise.reject()).then((savedUser) => { setUser(savedUser); localStorage.setItem("bitdash-user", JSON.stringify(savedUser)); }).catch(() => { localStorage.removeItem("bitdash-token"); localStorage.removeItem("bitdash-user"); setUser(null); }); }, []);
-  const submitAuth = async (event) => { event.preventDefault(); setAuthLoading(true); setAuthError(""); const form = new FormData(event.currentTarget), payload = { email: form.get("email"), password: form.get("password") }; if (authMode === "signup") payload.name = form.get("name"); try { const response = await fetch(`${API_URL}/api/auth/${authMode === "signup" ? "register" : "login"}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }); const data = await response.json(); if (!response.ok) throw new Error(data.details?.[0]?.message || data.error || "Authentication failed."); localStorage.setItem("bitdash-token", data.token); localStorage.setItem("bitdash-user", JSON.stringify(data.user)); setUser(data.user); setAuthOpen(false); } catch (error) { setAuthError(error.message); } finally { setAuthLoading(false); } };
-  const logout = () => { localStorage.removeItem("bitdash-token"); localStorage.removeItem("bitdash-user"); setUser(null); setStatus("idle"); setAuthOpen(false); };
-  return <main className="app-shell"><Navbar page={page} user={user} onNavigate={navigate} onAccount={openAccount} />{page === "leaderboard" ? <LeaderboardPage apiUrl={API_URL} onPlay={() => navigate("game")} /> : page === "faq" ? <FaqPage /> : <><section className="game"><div className="eyebrow"><span className="pulse" /> DAILY DRILL <span className="eyebrow-dot">•</span> BITS &amp; BASES</div><h1>Think in <em>bits.</em><br />Move at speed.</h1><p className="intro">A 30-second sprint through binary, hex, decimal,<br className="desktop" /> and bitwise operations.</p><GameCard current={current} time={time} score={score} streak={streak} status={status} message={scoreMessage} onStart={start} onAnswer={onAnswer} /><p className="tip"><span>✦</span> Tip: Prefix hex with <code>0x</code> and binary with <code>0b</code></p></section><section className="how"><span>THE RULES</span><div><h2>Simple inputs.<br /><em>Serious</em> brain gains.</h2><p>Solve mixed-base conversions and operations before the clock runs out. Correct answers build your score; streaks prove your flow.</p></div></section></>}<footer><span>© 2026 BITDASH</span><span>MADE FOR PEOPLE WHO READ HEX FOR FUN</span><span>⌘</span></footer>{authOpen && <AuthModal user={user} mode={authMode} loading={authLoading} error={authError} onClose={() => setAuthOpen(false)} onSubmit={submitAuth} onSwitch={() => { setAuthMode(authMode === "login" ? "signup" : "login"); setAuthError(""); }} onLogout={logout} />}</main>;
+  const [current, setCurrent] = useState(question),
+    [time, setTime] = useState(TIME_LIMIT),
+    [score, setScore] = useState(0),
+    [streak, setStreak] = useState(0),
+    [status, setStatus] = useState("idle"),
+    [user, setUser] = useState(() =>
+      JSON.parse(localStorage.getItem("bitdash-user") || "null"),
+    ),
+    [authOpen, setAuthOpen] = useState(false),
+    [authMode, setAuthMode] = useState("login"),
+    [authError, setAuthError] = useState(""),
+    [authLoading, setAuthLoading] = useState(false),
+    [gameToken, setGameToken] = useState(null),
+    [scoreMessage, setScoreMessage] = useState(""),
+    [page, setPage] = useState(() =>
+      window.location.hash === "#leaderboard"
+        ? "leaderboard"
+        : window.location.hash === "#faq"
+          ? "faq"
+          : "game",
+    );
+  const navigate = (nextPage) => {
+    setPage(nextPage);
+    window.location.hash = nextPage === "game" ? "" : nextPage;
+  };
+  const openAccount = () => {
+    setAuthError("");
+    setAuthOpen(true);
+  };
+  const start = async () => {
+    if (!user) {
+      setAuthMode("login");
+      openAccount();
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/api/games/start`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("bitdash-token")}`,
+        },
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.error || "Unable to start a scored game.");
+      setGameToken(data.gameToken);
+      setScoreMessage("");
+      setCurrent(question());
+      setTime(data.durationSeconds || TIME_LIMIT);
+      setScore(0);
+      setStreak(0);
+      setStatus("playing");
+    } catch (error) {
+      setScoreMessage(error.message);
+    }
+  };
+  const onAnswer = (answer) => {
+    const correct = parseAnswer(answer) === parseAnswer(current.result);
+    setScore((value) => value + (correct ? 1 : 0));
+    setStreak((value) => (correct ? value + 1 : 0));
+    setCurrent(question());
+  };
+  useEffect(() => {
+    if (status !== "playing") return;
+    if (time === 0) {
+      setStatus("finished");
+      return;
+    }
+    const timer = setTimeout(() => setTime((value) => value - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [status, time]);
+  useEffect(() => {
+    if (status !== "finished" || !gameToken) return;
+    let cancelled = false;
+    fetch(`${API_URL}/api/games/submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("bitdash-token")}`,
+      },
+      body: JSON.stringify({ gameToken, score }),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok)
+          throw new Error(data.error || "Unable to submit score.");
+      })
+      .then(
+        () =>
+          !cancelled && setScoreMessage("Score submitted to the leaderboard."),
+      )
+      .catch((error) => !cancelled && setScoreMessage(error.message))
+      .finally(() => !cancelled && setGameToken(null));
+    return () => {
+      cancelled = true;
+    };
+  }, [status, gameToken, score]);
+  useEffect(() => {
+    const token = localStorage.getItem("bitdash-token");
+    if (!token) return;
+    fetch(`${API_URL}/api/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then((savedUser) => {
+        setUser(savedUser);
+        localStorage.setItem("bitdash-user", JSON.stringify(savedUser));
+      })
+      .catch(() => {
+        localStorage.removeItem("bitdash-token");
+        localStorage.removeItem("bitdash-user");
+        setUser(null);
+      });
+  }, []);
+  const submitAuth = async (event) => {
+    event.preventDefault();
+    setAuthLoading(true);
+    setAuthError("");
+    const form = new FormData(event.currentTarget),
+      payload = { email: form.get("email"), password: form.get("password") };
+    if (authMode === "signup") payload.name = form.get("name");
+    try {
+      const response = await fetch(
+        `${API_URL}/api/auth/${authMode === "signup" ? "register" : "login"}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(
+          data.details?.[0]?.message || data.error || "Authentication failed.",
+        );
+      localStorage.setItem("bitdash-token", data.token);
+      localStorage.setItem("bitdash-user", JSON.stringify(data.user));
+      setUser(data.user);
+      setAuthOpen(false);
+    } catch (error) {
+      setAuthError(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+  const logout = () => {
+    localStorage.removeItem("bitdash-token");
+    localStorage.removeItem("bitdash-user");
+    setUser(null);
+    setStatus("idle");
+    setAuthOpen(false);
+  };
+  return (
+    <main className="app-shell">
+      <Navbar
+        page={page}
+        user={user}
+        onNavigate={navigate}
+        onAccount={openAccount}
+      />
+      {page === "leaderboard" ? (
+        <LeaderboardPage apiUrl={API_URL} onPlay={() => navigate("game")} />
+      ) : page === "faq" ? (
+        <FaqPage />
+      ) : (
+        <>
+          <section className="game">
+            <div className="eyebrow">
+              <span className="pulse" /> DAILY DRILL{" "}
+              <span className="eyebrow-dot">•</span> BITS &amp; BASES
+            </div>
+            <h1>
+              Think in <em>bits.</em>
+              <br />
+              Move at speed.
+            </h1>
+            <p className="intro">
+              A 30-second sprint through binary, hex, decimal,
+              <br className="desktop" /> and bitwise operations.
+            </p>
+            <GameCard
+              current={current}
+              time={time}
+              score={score}
+              streak={streak}
+              status={status}
+              message={scoreMessage}
+              onStart={start}
+              onAnswer={onAnswer}
+            />
+            <p className="tip">
+              <span>✦</span> Tip: Prefix hex with <code>0x</code> and binary
+              with <code>0b</code>
+            </p>
+          </section>
+          <section className="how">
+            <span>THE RULES</span>
+            <div>
+              <h2>
+                Simple inputs.
+                <br />
+                <em>Serious</em> brain gains.
+              </h2>
+              <p>
+                Solve mixed-base conversions and operations before the clock
+                runs out. Correct answers build your score; streaks prove your
+                flow.
+              </p>
+            </div>
+          </section>
+        </>
+      )}
+      <footer>
+        <span>© 2026 BITDASH</span>
+        <span>MADE FOR PEOPLE WHO READ HEX FOR FUN</span>
+        <span>⌘</span>
+      </footer>
+      {authOpen && (
+        <AuthModal
+          user={user}
+          mode={authMode}
+          loading={authLoading}
+          error={authError}
+          onClose={() => setAuthOpen(false)}
+          onSubmit={submitAuth}
+          onSwitch={() => {
+            setAuthMode(authMode === "login" ? "signup" : "login");
+            setAuthError("");
+          }}
+          onLogout={logout}
+        />
+      )}
+    </main>
+  );
 }

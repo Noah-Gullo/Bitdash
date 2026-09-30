@@ -1,2 +1,620 @@
-.app-shell{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 42%,#fcfcf9 0,#f6f6f2 49%,#eeeeea 100%)}.topbar{max-width:1240px;height:92px;margin:auto;padding:0 42px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #dfdfd9}.faq-page{max-width:790px;margin:auto;padding:80px 26px}.faq-heading{text-align:center}.faq-heading>p:last-child{color:#696d66;font-size:15px}.faq-list{margin-top:45px;border-top:1px solid #dcdcd6}.faq-item{padding:23px 4px;border-bottom:1px solid #dcdcd6}.faq-item h2{margin:0;font-size:19px;letter-spacing:-.7px}.faq-item p{margin:7px 0 0;color:#696d66;font-size:14px;line-height:1.55}@media(max-width:600px){.faq-page{padding:55px 20px}.faq-item{padding:19px 0}}.brand{border:0;background:transparent;padding:0;cursor:pointer;font:inherit}.topbar nav button{border:0;background:transparent;color:#777872;font:600 12px "DM Sans";cursor:pointer;padding:0}.topbar nav button.active{color:#273a32}.leaderboard-page{max-width:790px;margin:auto;padding:80px 26px;text-align:center}.leaderboard-heading>p:last-child{color:#696d66;font-size:15px}.leaderboard-table{margin-top:44px;text-align:left;border:1px solid #dcdcd6;background:rgba(255,255,252,.9)}.leaderboard-row{display:grid;grid-template-columns:70px 1fr 90px 120px;gap:12px;align-items:center;padding:17px 20px;border-top:1px solid #e5e5df}.leaderboard-row:first-child{border-top:0}.leaderboard-labels{color:#82857e;font:10px "DM Mono";letter-spacing:.1em}.leaderboard-row strong,.leaderboard-row b{font:500 16px "DM Mono"}.leaderboard-row time{color:#777872;font-size:12px}.leaderboard-state{padding:25px 20px;color:#777872;text-align:center}.leaderboard-play{margin-top:24px}@media(max-width:600px){.leaderboard-page{padding:55px 17px}.leaderboard-row{grid-template-columns:42px 1fr 50px;padding:15px 12px}.leaderboard-row time,.leaderboard-labels span:last-child{display:none}}.brand{color:#151714;text-decoration:none;font-weight:700;font-size:21px;letter-spacing:-.9px;display:flex;align-items:center;gap:9px}.brand-mark{color:#da533b;font:500 20px "DM Mono";letter-spacing:-4px}nav{display:flex;gap:31px;margin-left:100px}nav a{color:#777872;font-size:12px;font-weight:600;text-decoration:none}.profile-button{border:1px solid #d6d6d0;background:#fbfbf8;padding:3px;border-radius:50%;width:35px;height:35px}.profile-button span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#273a32;color:#f5f3e9;font:11px "DM Mono"}.game{max-width:790px;margin:auto;padding:80px 26px 72px;text-align:center}.eyebrow{display:flex;justify-content:center;align-items:center;gap:9px;font:500 10px "DM Mono";letter-spacing:.13em;color:#697067}.pulse{height:7px;width:7px;border-radius:50%;background:#e05a40;box-shadow:0 0 0 4px #f3d8d2}.eyebrow-dot{color:#b3b5ae}h1{margin:19px 0 13px;font-size:clamp(49px,7vw,75px);line-height:.94;letter-spacing:-4px;font-weight:600}em{font-family:"Instrument Serif",Georgia,serif;font-weight:400}.intro{color:#696d66;font-size:15px;line-height:1.55}.stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:468px;margin:49px auto 14px}.stats div{position:relative;display:flex;flex-direction:column;gap:5px}.stats div+div:before{position:absolute;left:0;top:5px;height:39px;width:1px;background:#ddddd7;content:""}.stats span{color:#82857e;font:500 9px "DM Mono";letter-spacing:.14em}.stats strong{font:500 29px "DM Mono";letter-spacing:-2px}.stats small{font-size:14px;margin-left:2px;color:#777a73}.stats .danger{color:#dc533b}.timer{height:3px;max-width:468px;background:#dfdfd9;margin:0 auto 19px;overflow:hidden}.timer div{height:100%;background:#dc533b;transition:width .35s linear}.challenge-card{position:relative;text-align:left;border:1px solid #dcdcd6;background:rgba(255,255,252,.9);box-shadow:0 18px 42px rgba(37,38,28,.07);padding:20px 22px 22px;min-height:235px}.challenge-card.playing{border-color:#b9c6bc}.card-top{display:flex;justify-content:space-between;align-items:center;color:#6d716b;font:10px "DM Mono";letter-spacing:.08em}.format-pill{background:#e7eee7;border-radius:3px;color:#4c6855;padding:5px 8px;font-size:9px;letter-spacing:.04em}.equation{min-height:125px;padding:36px 10px 21px;display:flex;align-items:center;justify-content:center;gap:17px;white-space:nowrap}.equation code{color:#293c34;font:500 clamp(20px,3.7vw,29px) "DM Mono";letter-spacing:-1px}.equation i{color:#dc533b;font:400 27px "DM Mono";font-style:normal}.equation b{color:#b5b7b0;font-weight:400;font-size:25px}.equation span{font:500 35px "DM Mono";color:#161916}.answer-form{display:flex;gap:8px}.answer-form input{outline:0;min-width:0;flex:1;height:45px;padding:0 14px;background:#f4f4ef;border:1px solid #dcddd6;color:#213a2c;font:15px "DM Mono"}.answer-form input:focus{background:#fff;border-color:#6e9278;box-shadow:0 0 0 3px #e1eae2}.answer-form button{border:0;padding:0 15px;color:#fffdfa;background:#273a32;font-size:12px;font-weight:600}.answer-form button:disabled{opacity:.5;cursor:not-allowed}.answer-form kbd{font:10px "DM Mono";border-left:1px solid #627067;margin-left:7px;padding-left:7px}.tip{margin:17px 0 0;color:#83867f;font-size:11px}.tip span{color:#dc533b}.tip code{color:#5b665e;font:10px "DM Mono"}.card-overlay{z-index:3;position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:rgba(255,255,252,.95)}.card-overlay h2{margin:5px 0;font-size:25px;letter-spacing:-1.3px}.card-overlay p{margin:0 0 18px;color:#72746e;font-size:12px}.overlay-icon{color:#dc533b;font:32px "Instrument Serif"}.start{border:0;background:#dc533b;color:#fff;padding:12px 18px;font-size:12px;font-weight:700;box-shadow:3px 3px 0 #b94330}.start:hover{transform:translate(-1px,-1px)}.start span{margin-left:13px;font-size:16px}.score-ring{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:#dc533b;border:1px solid #edc8bf;font:500 18px "DM Mono"}.how{max-width:1240px;margin:auto;padding:64px 42px 76px;border-top:1px solid #deded8;display:grid;grid-template-columns:1fr 2fr;text-align:left}.how>span{color:#df573d;font:10px "DM Mono";letter-spacing:.15em}.how h2{font-size:38px;line-height:.98;letter-spacing:-2px;margin:0}.how p{max-width:360px;color:#72756e;font-size:13px;line-height:1.55;margin:19px 0 0}footer{max-width:1240px;margin:auto;padding:21px 42px;border-top:1px solid #deded8;color:#888b84;display:flex;justify-content:space-between;font:9px "DM Mono";letter-spacing:.1em}@media(max-width:600px){.topbar{height:70px;padding:0 20px}nav{display:none}.game{padding:55px 17px 52px}h1{letter-spacing:-2.8px}.stats{margin-top:40px}.challenge-card{padding:16px 14px 15px}.equation{gap:8px;padding-inline:0}.equation code{font-size:clamp(16px,5.3vw,22px)}.equation i{font-size:22px}.how{padding:45px 20px;grid-template-columns:1fr;gap:28px}.how h2{font-size:33px}footer{padding:17px 20px;font-size:8px}footer span:nth-child(2){display:none}.desktop{display:none}}
-.auth-backdrop{position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:20px;background:rgba(22,27,23,.48);backdrop-filter:blur(4px)}.auth-modal{position:relative;width:min(100%,420px);padding:39px;background:#fcfcf8;box-shadow:0 24px 65px rgba(0,0,0,.25);text-align:left}.auth-close{position:absolute;right:14px;top:11px;border:0;background:transparent;color:#7b7f77;font-size:25px;line-height:1}.auth-eyebrow{margin:0 0 13px;color:#dc533b;font:10px "DM Mono";letter-spacing:.14em}.auth-modal h2{margin:0;letter-spacing:-1.5px;font-size:32px}.auth-copy{margin:8px 0 23px;color:#73766f;font-size:13px;line-height:1.5}.auth-form{display:grid;gap:14px}.auth-form label{display:grid;gap:6px;color:#565b54;font:10px "DM Mono";letter-spacing:.07em}.auth-form input{height:43px;padding:0 12px;border:1px solid #d8dad3;outline:0;background:#f5f5ef;color:#17251d;font:13px "DM Sans";letter-spacing:0}.auth-form input:focus{border-color:#6e9278;box-shadow:0 0 0 3px #e1eae2}.auth-error{margin:0;color:#b6402e;font-size:12px}.auth-submit{width:100%;border:0;background:#273a32;color:#fff;padding:13px 15px;text-align:left;font-size:12px;font-weight:700}.auth-submit span{float:right;font-size:17px;line-height:12px}.auth-submit:disabled{opacity:.65}.auth-switch{margin:17px 0 0;border:0;padding:0;background:transparent;color:#6c7169;font-size:11px;text-decoration:underline;text-underline-offset:3px}
+.app-shell {
+  min-height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 50% 42%,
+    #fcfcf9 0,
+    #f6f6f2 49%,
+    #eeeeea 100%
+  );
+}
+.topbar {
+  max-width: 1240px;
+  height: 92px;
+  margin: auto;
+  padding: 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dfdfd9;
+}
+.faq-page {
+  max-width: 790px;
+  margin: auto;
+  padding: 80px 26px;
+}
+.faq-heading {
+  text-align: center;
+}
+.faq-heading > p:last-child {
+  color: #696d66;
+  font-size: 15px;
+}
+.faq-list {
+  margin-top: 45px;
+  border-top: 1px solid #dcdcd6;
+}
+.faq-item {
+  padding: 23px 4px;
+  border-bottom: 1px solid #dcdcd6;
+}
+.faq-item h2 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: -0.7px;
+}
+.faq-item p {
+  margin: 7px 0 0;
+  color: #696d66;
+  font-size: 14px;
+  line-height: 1.55;
+}
+@media (max-width: 600px) {
+  .faq-page {
+    padding: 55px 20px;
+  }
+  .faq-item {
+    padding: 19px 0;
+  }
+}
+.brand {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.topbar nav button {
+  border: 0;
+  background: transparent;
+  color: #777872;
+  font: 600 12px "DM Sans";
+  cursor: pointer;
+  padding: 0;
+}
+.topbar nav button.active {
+  color: #273a32;
+}
+.leaderboard-page {
+  max-width: 790px;
+  margin: auto;
+  padding: 80px 26px;
+  text-align: center;
+}
+.leaderboard-heading > p:last-child {
+  color: #696d66;
+  font-size: 15px;
+}
+.leaderboard-table {
+  margin-top: 44px;
+  text-align: left;
+  border: 1px solid #dcdcd6;
+  background: rgba(255, 255, 252, 0.9);
+}
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 90px 120px;
+  gap: 12px;
+  align-items: center;
+  padding: 17px 20px;
+  border-top: 1px solid #e5e5df;
+}
+.leaderboard-row:first-child {
+  border-top: 0;
+}
+.leaderboard-labels {
+  color: #82857e;
+  font: 10px "DM Mono";
+  letter-spacing: 0.1em;
+}
+.leaderboard-row strong,
+.leaderboard-row b {
+  font: 500 16px "DM Mono";
+}
+.leaderboard-row time {
+  color: #777872;
+  font-size: 12px;
+}
+.leaderboard-state {
+  padding: 25px 20px;
+  color: #777872;
+  text-align: center;
+}
+.leaderboard-play {
+  margin-top: 24px;
+}
+@media (max-width: 600px) {
+  .leaderboard-page {
+    padding: 55px 17px;
+  }
+  .leaderboard-row {
+    grid-template-columns: 42px 1fr 50px;
+    padding: 15px 12px;
+  }
+  .leaderboard-row time,
+  .leaderboard-labels span:last-child {
+    display: none;
+  }
+}
+.brand {
+  color: #151714;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.brand-mark {
+  color: #da533b;
+  font: 500 20px "DM Mono";
+  letter-spacing: -4px;
+}
+nav {
+  display: flex;
+  gap: 31px;
+  margin-left: 100px;
+}
+nav a {
+  color: #777872;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.profile-button {
+  border: 1px solid #d6d6d0;
+  background: #fbfbf8;
+  padding: 3px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+.profile-button span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #273a32;
+  color: #f5f3e9;
+  font: 11px "DM Mono";
+}
+.game {
+  max-width: 790px;
+  margin: auto;
+  padding: 80px 26px 72px;
+  text-align: center;
+}
+.eyebrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  font: 500 10px "DM Mono";
+  letter-spacing: 0.13em;
+  color: #697067;
+}
+.pulse {
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  background: #e05a40;
+  box-shadow: 0 0 0 4px #f3d8d2;
+}
+.eyebrow-dot {
+  color: #b3b5ae;
+}
+h1 {
+  margin: 19px 0 13px;
+  font-size: clamp(49px, 7vw, 75px);
+  line-height: 0.94;
+  letter-spacing: -4px;
+  font-weight: 600;
+}
+em {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+}
+.intro {
+  color: #696d66;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 468px;
+  margin: 49px auto 14px;
+}
+.stats div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.stats div + div:before {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: 39px;
+  width: 1px;
+  background: #ddddd7;
+  content: "";
+}
+.stats span {
+  color: #82857e;
+  font: 500 9px "DM Mono";
+  letter-spacing: 0.14em;
+}
+.stats strong {
+  font: 500 29px "DM Mono";
+  letter-spacing: -2px;
+}
+.stats small {
+  font-size: 14px;
+  margin-left: 2px;
+  color: #777a73;
+}
+.stats .danger {
+  color: #dc533b;
+}
+.timer {
+  height: 3px;
+  max-width: 468px;
+  background: #dfdfd9;
+  margin: 0 auto 19px;
+  overflow: hidden;
+}
+.timer div {
+  height: 100%;
+  background: #dc533b;
+  transition: width 0.35s linear;
+}
+.challenge-card {
+  position: relative;
+  text-align: left;
+  border: 1px solid #dcdcd6;
+  background: rgba(255, 255, 252, 0.9);
+  box-shadow: 0 18px 42px rgba(37, 38, 28, 0.07);
+  padding: 20px 22px 22px;
+  min-height: 235px;
+}
+.challenge-card.playing {
+  border-color: #b9c6bc;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6d716b;
+  font: 10px "DM Mono";
+  letter-spacing: 0.08em;
+}
+.format-pill {
+  background: #e7eee7;
+  border-radius: 3px;
+  color: #4c6855;
+  padding: 5px 8px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.equation {
+  min-height: 125px;
+  padding: 36px 10px 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  white-space: nowrap;
+}
+.equation code {
+  color: #293c34;
+  font: 500 clamp(20px, 3.7vw, 29px) "DM Mono";
+  letter-spacing: -1px;
+}
+.equation i {
+  color: #dc533b;
+  font: 400 27px "DM Mono";
+  font-style: normal;
+}
+.equation b {
+  color: #b5b7b0;
+  font-weight: 400;
+  font-size: 25px;
+}
+.equation span {
+  font: 500 35px "DM Mono";
+  color: #161916;
+}
+.answer-form {
+  display: flex;
+  gap: 8px;
+}
+.answer-form input {
+  outline: 0;
+  min-width: 0;
+  flex: 1;
+  height: 45px;
+  padding: 0 14px;
+  background: #f4f4ef;
+  border: 1px solid #dcddd6;
+  color: #213a2c;
+  font: 15px "DM Mono";
+}
+.answer-form input:focus {
+  background: #fff;
+  border-color: #6e9278;
+  box-shadow: 0 0 0 3px #e1eae2;
+}
+.answer-form button {
+  border: 0;
+  padding: 0 15px;
+  color: #fffdfa;
+  background: #273a32;
+  font-size: 12px;
+  font-weight: 600;
+}
+.answer-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.answer-form kbd {
+  font: 10px "DM Mono";
+  border-left: 1px solid #627067;
+  margin-left: 7px;
+  padding-left: 7px;
+}
+.tip {
+  margin: 17px 0 0;
+  color: #83867f;
+  font-size: 11px;
+}
+.tip span {
+  color: #dc533b;
+}
+.tip code {
+  color: #5b665e;
+  font: 10px "DM Mono";
+}
+.card-overlay {
+  z-index: 3;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: rgba(255, 255, 252, 0.95);
+}
+.card-overlay h2 {
+  margin: 5px 0;
+  font-size: 25px;
+  letter-spacing: -1.3px;
+}
+.card-overlay p {
+  margin: 0 0 18px;
+  color: #72746e;
+  font-size: 12px;
+}
+.overlay-icon {
+  color: #dc533b;
+  font: 32px "Instrument Serif";
+}
+.start {
+  border: 0;
+  background: #dc533b;
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 #b94330;
+}
+.start:hover {
+  transform: translate(-1px, -1px);
+}
+.start span {
+  margin-left: 13px;
+  font-size: 16px;
+}
+.score-ring {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #dc533b;
+  border: 1px solid #edc8bf;
+  font: 500 18px "DM Mono";
+}
+.how {
+  max-width: 1240px;
+  margin: auto;
+  padding: 64px 42px 76px;
+  border-top: 1px solid #deded8;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  text-align: left;
+}
+.how > span {
+  color: #df573d;
+  font: 10px "DM Mono";
+  letter-spacing: 0.15em;
+}
+.how h2 {
+  font-size: 38px;
+  line-height: 0.98;
+  letter-spacing: -2px;
+  margin: 0;
+}
+.how p {
+  max-width: 360px;
+  color: #72756e;
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 19px 0 0;
+}
+footer {
+  max-width: 1240px;
+  margin: auto;
+  padding: 21px 42px;
+  border-top: 1px solid #deded8;
+  color: #888b84;
+  display: flex;
+  justify-content: space-between;
+  font: 9px "DM Mono";
+  letter-spacing: 0.1em;
+}
+@media (max-width: 600px) {
+  .topbar {
+    height: 70px;
+    padding: 0 20px;
+  }
+  nav {
+    display: none;
+  }
+  .game {
+    padding: 55px 17px 52px;
+  }
+  h1 {
+    letter-spacing: -2.8px;
+  }
+  .stats {
+    margin-top: 40px;
+  }
+  .challenge-card {
+    padding: 16px 14px 15px;
+  }
+  .equation {
+    gap: 8px;
+    padding-inline: 0;
+  }
+  .equation code {
+    font-size: clamp(16px, 5.3vw, 22px);
+  }
+  .equation i {
+    font-size: 22px;
+  }
+  .how {
+    padding: 45px 20px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .how h2 {
+    font-size: 33px;
+  }
+  footer {
+    padding: 17px 20px;
+    font-size: 8px;
+  }
+  footer span:nth-child(2) {
+    display: none;
+  }
+  .desktop {
+    display: none;
+  }
+}
+.auth-backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(22, 27, 23, 0.48);
+  backdrop-filter: blur(4px);
+}
+.auth-modal {
+  position: relative;
+  width: min(100%, 420px);
+  padding: 39px;
+  background: #fcfcf8;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.25);
+  text-align: left;
+}
+.auth-close {
+  position: absolute;
+  right: 14px;
+  top: 11px;
+  border: 0;
+  background: transparent;
+  color: #7b7f77;
+  font-size: 25px;
+  line-height: 1;
+}
+.auth-eyebrow {
+  margin: 0 0 13px;
+  color: #dc533b;
+  font: 10px "DM Mono";
+  letter-spacing: 0.14em;
+}
+.auth-modal h2 {
+  margin: 0;
+  letter-spacing: -1.5px;
+  font-size: 32px;
+}
+.auth-copy {
+  margin: 8px 0 23px;
+  color: #73766f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.auth-form {
+  display: grid;
+  gap: 14px;
+}
+.auth-form label {
+  display: grid;
+  gap: 6px;
+  color: #565b54;
+  font: 10px "DM Mono";
+  letter-spacing: 0.07em;
+}
+.auth-form input {
+  height: 43px;
+  padding: 0 12px;
+  border: 1px solid #d8dad3;
+  outline: 0;
+  background: #f5f5ef;
+  color: #17251d;
+  font: 13px "DM Sans";
+  letter-spacing: 0;
+}
+.auth-form input:focus {
+  border-color: #6e9278;
+  box-shadow: 0 0 0 3px #e1eae2;
+}
+.auth-error {
+  margin: 0;
+  color: #b6402e;
+  font-size: 12px;
+}
+.auth-submit {
+  width: 100%;
+  border: 0;
+  background: #273a32;
+  color: #fff;
+  padding: 13px 15px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+}
+.auth-submit span {
+  float: right;
+  font-size: 17px;
+  line-height: 12px;
+}
+.auth-submit:disabled {
+  opacity: 0.65;
+}
+.auth-switch {
+  margin: 17px 0 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #6c7169;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

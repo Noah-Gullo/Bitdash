@@ -1,6 +1,11 @@
 const crypto = require("crypto");
 const supabase = require("../db");
-const { isCacheConfigured, getLeaderboardCache, cacheLeaderboard, invalidateLeaderboardCache } = require("./cacheService");
+const {
+  isCacheConfigured,
+  getLeaderboardCache,
+  cacheLeaderboard,
+  invalidateLeaderboardCache,
+} = require("./cacheService");
 
 function requireResult(error) {
   if (error) throw new Error(error.message);
@@ -47,7 +52,10 @@ async function submitScore(sessionId, userId, score) {
   requireResult(claimError);
 
   if (!claimed?.length) {
-    const { error: cleanupError } = await supabase.from("scores").delete().eq("id", scoreId);
+    const { error: cleanupError } = await supabase
+      .from("scores")
+      .delete()
+      .eq("id", scoreId);
     requireResult(cleanupError);
     return null;
   }
@@ -60,11 +68,26 @@ async function getLeaderboard() {
   const cached = await getLeaderboardCache();
   if (cached) return { entries: cached, cache: "HIT" };
 
-  const { data, error } = await supabase.from("scores").select("id, score, created_at, users(name)").order("score", { ascending: false }).order("created_at", { ascending: true }).limit(50);
+  const { data, error } = await supabase
+    .from("scores")
+    .select("id, score, created_at, users(name)")
+    .order("score", { ascending: false })
+    .order("created_at", { ascending: true })
+    .limit(50);
   requireResult(error);
-  const entries = data.map((entry) => ({ id: entry.id, score: entry.score, createdAt: entry.created_at, name: entry.users?.name || "Anonymous" }));
+  const entries = data.map((entry) => ({
+    id: entry.id,
+    score: entry.score,
+    createdAt: entry.created_at,
+    name: entry.users?.name || "Anonymous",
+  }));
   await cacheLeaderboard(entries);
   return { entries, cache: isCacheConfigured() ? "MISS" : "DISABLED" };
 }
 
-module.exports = { createGameSession, getGameSession, submitScore, getLeaderboard };
+module.exports = {
+  createGameSession,
+  getGameSession,
+  submitScore,
+  getLeaderboard,
+};
