@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Noah-Gullo/codebox-day1#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
+    "@upstash/redis": "^1.39.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",

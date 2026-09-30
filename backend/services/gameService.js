@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const supabase = require("../db");
+const { getLeaderboardCache, cacheLeaderboard, invalidateLeaderboardCache } = require("./cacheService");
 
 function requireResult(error) {
   if (error) throw new Error(error.message);
@@ -51,13 +52,19 @@ async function submitScore(sessionId, userId, score) {
     return null;
   }
 
+  await invalidateLeaderboardCache();
   return scoreRow;
 }
 
 async function getLeaderboard() {
+  const cached = await getLeaderboardCache();
+  if (cached) return cached;
+
   const { data, error } = await supabase.from("scores").select("id, score, created_at, users(name)").order("score", { ascending: false }).order("created_at", { ascending: true }).limit(50);
   requireResult(error);
-  return data.map((entry) => ({ id: entry.id, score: entry.score, createdAt: entry.created_at, name: entry.users?.name || "Anonymous" }));
+  const entries = data.map((entry) => ({ id: entry.id, score: entry.score, createdAt: entry.created_at, name: entry.users?.name || "Anonymous" }));
+  await cacheLeaderboard(entries);
+  return entries;
 }
 
 module.exports = { createGameSession, getGameSession, submitScore, getLeaderboard };
