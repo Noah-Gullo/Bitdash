@@ -1,5 +1,5 @@
 [build]
-  command = "echo Building Bitdash API"
+  command = "npm ci --prefix backend"
   publish = "backend/src"
 
 [functions]
